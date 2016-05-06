@@ -270,6 +270,13 @@ extension NextGrowingTextView {
         }
     }
     
+    public var selectedTextRange: UITextRange? {
+        get { return self.textView.selectedTextRange }
+        set {
+            self.textView.selectedTextRange = newValue
+        }
+    }
+    
     public var font: UIFont? {
         get { return self.textView.font }
         set { self.textView.font = newValue }
