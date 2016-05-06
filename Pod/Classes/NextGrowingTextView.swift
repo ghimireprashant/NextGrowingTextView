@@ -255,7 +255,16 @@ extension NextGrowingTextView {
     }
 
     // MARK: TextView
-
+    
+    public var selectedTextRange: UITextRange? {
+        get { return self.textView.selectedTextRange }
+        set { self.textView.selectedTextRange = newValue }
+    }
+    
+    public func replaceRange(range: UITextRange, withText text: String) {
+        self.textView.replaceRange(range, withText: text)
+    }
+    
     public var returnKeyType: UIReturnKeyType {
         get { return self.textView.returnKeyType }
         set { self.textView.returnKeyType = newValue }
