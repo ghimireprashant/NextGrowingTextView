@@ -32,7 +32,7 @@ internal class NextGrowingInternalTextView: UITextView {
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NextGrowingInternalTextView.textDidChangeNotification(_ :)), name: UITextViewTextDidChangeNotification, object: self)
+        NotificationCenter.default.addObserver(self, selector: #selector(NextGrowingInternalTextView.textDidChangeNotification(_ :)), name: NSNotification.Name.UITextViewTextDidChange, object: self)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -40,7 +40,7 @@ internal class NextGrowingInternalTextView: UITextView {
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     override var text: String! {
@@ -60,9 +60,9 @@ internal class NextGrowingInternalTextView: UITextView {
         self.setNeedsDisplay()
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
-        super.drawRect(rect)
+        super.draw(rect)
         
         guard self.displayPlaceholder == true else {
             return
@@ -74,12 +74,12 @@ internal class NextGrowingInternalTextView: UITextView {
         let targetRect = CGRect(x: 5, y: 8 + self.contentInset.top, width: self.frame.size.width - self.contentInset.left, height: self.frame.size.height - self.contentInset.top)
         
         let attributedString = self.placeholderAttributedText
-        attributedString?.drawInRect(targetRect)
+        attributedString?.draw(in: targetRect)
     }
     
     // MARK: Private
     
-    private var displayPlaceholder: Bool = true {
+    fileprivate var displayPlaceholder: Bool = true {
         didSet {
             if oldValue != self.displayPlaceholder {
                 self.setNeedsDisplay()
@@ -87,12 +87,12 @@ internal class NextGrowingInternalTextView: UITextView {
         }
     }
     
-    private dynamic func textDidChangeNotification(notification: NSNotification) {
+    fileprivate dynamic func textDidChangeNotification(_ notification: Notification) {
         
         self.updatePlaceholder()
     }
     
-    private func updatePlaceholder() {
+    fileprivate func updatePlaceholder() {
         self.displayPlaceholder = self.text.characters.count == 0
     }
 }
